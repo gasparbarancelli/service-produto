@@ -1,17 +1,16 @@
 package com.gasparbarancelli.serviceproduto.http;
 
 import com.gasparbarancelli.serviceproduto.http.data.request.ProdutoPersistDto;
-import com.gasparbarancelli.serviceproduto.http.data.response.ProdutoResponseDto;
 import com.gasparbarancelli.serviceproduto.model.Produto;
 import com.gasparbarancelli.serviceproduto.service.ProdutoService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("produto")
-public class ProdutoControllerImpl {
+public class ProdutoControllerImpl implements ProdutoController {
 
     private final ProdutoService produtoService;
 
@@ -19,10 +18,18 @@ public class ProdutoControllerImpl {
         this.produtoService = produtoService;
     }
 
+    @Override
     @PostMapping
-    public ProdutoResponseDto inserir(@RequestBody ProdutoPersistDto dto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Produto inserir(@Valid @RequestBody ProdutoPersistDto dto) {
         Produto produto = new Produto(dto.getDescricao(), dto.getValor());
-        Produto produtoPersistido = produtoService.inserir(produto);
-        return new ProdutoResponseDto(produtoPersistido.getId(), produtoPersistido.getDescricao());
+        return produtoService.inserir(produto);
     }
+
+    @Override
+    @GetMapping("{id}")
+    public Produto one(@PathVariable("id") Long id) {
+        return produtoService.one(id);
+    }
+
 }

@@ -20,6 +20,10 @@ public class Produto {
     @Column(name = "VALOR", nullable = false)
     private BigDecimal valor;
 
+    @Deprecated
+    public Produto() {
+    }
+
     public Produto(@NonNull String descricao, @NonNull BigDecimal valor) {
         this.descricao = Objects.requireNonNull(descricao);
         this.valor = Objects.requireNonNull(valor);
