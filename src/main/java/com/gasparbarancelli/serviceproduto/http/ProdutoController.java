@@ -1,8 +1,11 @@
 package com.gasparbarancelli.serviceproduto.http;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gasparbarancelli.serviceproduto.http.data.request.ProdutoPersistDto;
 import com.gasparbarancelli.serviceproduto.http.data.response.ProdutoResponseDto;
 import com.gasparbarancelli.serviceproduto.model.Produto;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -40,4 +43,6 @@ public interface ProdutoController {
     @GetMapping("{id}")
     Produto one(@PathVariable("id") Long id);
 
+    @PatchMapping("{id}")
+    Produto update(@PathVariable("id") Long id, @RequestBody JsonPatch patch) throws JsonPatchException, JsonProcessingException;
 }
