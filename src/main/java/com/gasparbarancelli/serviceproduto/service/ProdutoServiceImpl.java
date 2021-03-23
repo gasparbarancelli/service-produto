@@ -38,6 +38,9 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public Produto save(Produto produto) {
         Produto produtoPersist = produtoRepository.save(produto);
+        if (produto.getId() % 2 == 0) {
+            throw new RuntimeException("Teste");
+        }
         applicationEventPublisher.publishEvent(new ProdutoPersistEvent(this, produto));
         return produtoPersist;
     }

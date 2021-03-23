@@ -60,4 +60,12 @@ public class Produto {
         return Objects.hash(id);
     }
 
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", descricao='" + descricao + '\'' +
+                ", valor=" + valor +
+                '}';
+    }
 }
